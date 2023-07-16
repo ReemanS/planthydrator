@@ -46,6 +46,8 @@ app.*.map.json
 # Unused
 /web
 /windows
+/linux
+/macos
 
 # Others
 *.env
