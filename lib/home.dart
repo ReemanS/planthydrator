@@ -78,6 +78,9 @@ class _BodySectionState extends State<BodySection> {
                     fontSize: 24,
                   ),
                 ),
+              ),
+              const Placeholder(
+                fallbackHeight: 50,
               )
             ],
           ),
