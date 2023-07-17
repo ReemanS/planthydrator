@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:planthydrator/screens/search.dart';
 import 'package:planthydrator/helpers/sql_helper.dart';
+import 'package:planthydrator/helpers/image_picker.dart';
+
 // import 'package:flutter_svg/flutter_svg.dart';
 
 class Home extends StatelessWidget {
@@ -63,6 +65,8 @@ class BodySection extends StatefulWidget {
 }
 
 class _BodySectionState extends State<BodySection> {
+  final ImageHelper imageHelper = ImageHelper();
+
   List<Map<String, dynamic>> _plants = [];
 
   bool _isLoading = true;
@@ -73,6 +77,57 @@ class _BodySectionState extends State<BodySection> {
       _plants = data;
       _isLoading = false;
     });
+  }
+
+  final TextEditingController _plantNameController = TextEditingController();
+  final TextEditingController _plantImageController = TextEditingController();
+  final TextEditingController _plantLastWateringDateController =
+      TextEditingController();
+  final TextEditingController _plantWateringFrequencyController =
+      TextEditingController();
+
+  void _showForm(int? id) async {
+    if (id != null) {
+      final existingPlant =
+          _plants.firstWhere((element) => element['id'] == id);
+      _plantNameController.text = existingPlant['name'];
+      _plantImageController.text = existingPlant['image'];
+      _plantLastWateringDateController.text = existingPlant['lastWateringDate'];
+      _plantWateringFrequencyController.text =
+          existingPlant['wateringFrequency'];
+    } else {
+      showModalBottomSheet(
+        context: context,
+        elevation: 5,
+        isScrollControlled: true,
+        builder: (_) => Container(
+          padding: EdgeInsets.fromLTRB(
+              15, 15, 15, MediaQuery.of(context).viewInsets.bottom + 120),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              TextField(
+                controller: _plantImageController,
+                decoration: const InputDecoration(hintText: "Title"),
+              ),
+              const SizedBox(height: 5),
+              imageHelper.buildImageInput(context, _plantImageController),
+              const SizedBox(height: 5),
+              TextField(
+                controller: _plantWateringFrequencyController,
+                decoration:
+                    const InputDecoration(hintText: "Watering Frequency"),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                "Last Watering Date: ${_plantLastWateringDateController.text}",
+              ),
+            ],
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -91,7 +146,7 @@ class _BodySectionState extends State<BodySection> {
           borderRadius: BorderRadius.circular(10),
         ),
         child: const Icon(Icons.add),
-        onPressed: () => null,
+        onPressed: () => _showForm(null),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
