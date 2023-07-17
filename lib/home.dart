@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:planthydrator/screens/search.dart';
+import 'package:planthydrator/helpers/sql_helper.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 
 class Home extends StatelessWidget {
@@ -62,34 +63,52 @@ class BodySection extends StatefulWidget {
 }
 
 class _BodySectionState extends State<BodySection> {
+  List<Map<String, dynamic>> _plants = [];
+
+  bool _isLoading = true;
+
+  void _refreshPlants() async {
+    final List<Map<String, dynamic>> data = await SQLHelper.getAllItems();
+    setState(() {
+      _plants = data;
+      _isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshPlants();
+    print("num of plants: ${_plants.length}");
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SizedBox(
-          height: 100,
-          child: Stack(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                child: Text(
-                  "Water today",
-                  style: (Theme.of(context).textTheme.displayMedium)!.copyWith(
-                    fontSize: 24,
-                  ),
-                ),
-              ),
-              const Placeholder(
-                fallbackHeight: 50,
-              )
-            ],
-          ),
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).primaryColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
         ),
-        // GridView.builder(
-        //   itemBuilder: ,
-        //   scrollDirection: Axis.horizontal,
-        // ),
-      ],
+        child: const Icon(Icons.add),
+        onPressed: () => null,
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+            child: Text(
+              "Water today",
+              style: (Theme.of(context).textTheme.displayMedium)!.copyWith(
+                fontSize: 24,
+              ),
+              textAlign: TextAlign.left,
+            ),
+          ),
+          const Placeholder(),
+        ],
+      ),
     );
   }
 }
