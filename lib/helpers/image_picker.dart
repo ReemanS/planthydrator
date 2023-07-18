@@ -25,7 +25,7 @@ class ImageHelper {
         pickImage(context);
       },
       decoration: InputDecoration(
-        labelText: 'Image',
+        labelText: 'Select image',
         suffixIcon: IconButton(
           onPressed: () {
             pickImage(context);
