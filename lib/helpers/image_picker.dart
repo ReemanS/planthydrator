@@ -17,6 +17,8 @@ class ImageHelper {
     return null;
   }
 
+  // TODO: refactor and move to a widget in main scope
+
   Widget buildImageInput(BuildContext context, controller) {
     return TextField(
       controller: controller,
