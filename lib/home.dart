@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:planthydrator/screens/search.dart';
 import 'package:planthydrator/helpers/sql_helper.dart';
-import 'package:planthydrator/helpers/image_picker.dart';
-
 // import 'package:flutter_svg/flutter_svg.dart';
 
 class Home extends StatelessWidget {
@@ -65,8 +64,6 @@ class BodySection extends StatefulWidget {
 }
 
 class _BodySectionState extends State<BodySection> {
-  final ImageHelper imageHelper = ImageHelper();
-
   List<Map<String, dynamic>> _plants = [];
 
   bool _isLoading = true;
@@ -77,6 +74,18 @@ class _BodySectionState extends State<BodySection> {
       _plants = data;
       _isLoading = false;
     });
+  }
+
+  String? _imagePath;
+  Future<void> _pickImage() async {
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _imagePath = pickedFile.path;
+      });
+    }
   }
 
   final TextEditingController _plantNameController = TextEditingController();
