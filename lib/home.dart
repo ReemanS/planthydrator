@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:planthydrator/screens/search.dart';
@@ -78,7 +79,7 @@ class _BodySectionState extends State<BodySection> {
 
   String? _imagePath;
   Future<void> _pickImage() async {
-    final pickedFile =
+    final XFile? pickedFile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
@@ -95,6 +96,9 @@ class _BodySectionState extends State<BodySection> {
   final TextEditingController _plantWateringFrequencyController =
       TextEditingController();
 
+  // TODO: implement separate add and edit forms
+  void _addPlantForm() async {}
+
   void _showForm(int? id) async {
     if (id != null) {
       final existingPlant =
@@ -105,34 +109,84 @@ class _BodySectionState extends State<BodySection> {
       _plantWateringFrequencyController.text =
           existingPlant['wateringFrequency'];
     } else {
+      ThemeData themes = Theme.of(context);
       showModalBottomSheet(
         context: context,
         elevation: 5,
         isScrollControlled: true,
-        builder: (_) => Container(
-          padding: EdgeInsets.fromLTRB(
-              15, 15, 15, MediaQuery.of(context).viewInsets.bottom + 120),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              TextField(
-                controller: _plantImageController,
-                decoration: const InputDecoration(hintText: "Title"),
-              ),
-              const SizedBox(height: 5),
-              imageHelper.buildImageInput(context, _plantImageController),
-              const SizedBox(height: 5),
-              TextField(
-                controller: _plantWateringFrequencyController,
-                decoration:
-                    const InputDecoration(hintText: "Watering Frequency"),
-              ),
-              const SizedBox(height: 5),
-              Text(
-                "Last Watering Date: ${_plantLastWateringDateController.text}",
-              ),
-            ],
+        builder: (_) => StatefulBuilder(
+          builder: (BuildContext context, StateSetter setModalState) =>
+              Container(
+            padding: EdgeInsets.fromLTRB(
+              15,
+              15,
+              15,
+              MediaQuery.of(context).viewInsets.bottom + 120,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                TextField(
+                  controller: _plantImageController,
+                  decoration:
+                      const InputDecoration(labelText: "Enter plant name"),
+                ),
+                const SizedBox(height: 5),
+                _imagePath == null
+                    ? InkWell(
+                        onTap: () {_pickImage; setModalState(() {_imagePath = });},
+                        child: Container(
+                          width: 400,
+                          height: 400,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(Icons.add_a_photo, size: 30),
+                              const SizedBox(height: 8),
+                              Text('Select an image',
+                                  style: themes.textTheme.labelSmall),
+                            ],
+                          ),
+                        ),
+                      )
+                    : Column(
+                        children: [
+                          Image.file(
+                            File(_imagePath!),
+                            width: 400,
+                            height: 400,
+                          ),
+                          const SizedBox(height: 5),
+                          // Select another image
+                          TextButton(
+                            onPressed: _pickImage,
+                            child: Text(
+                              'Select another image',
+                              style: themes.textTheme.labelSmall!.copyWith(
+                                color: themes.primaryColor,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                const SizedBox(height: 5),
+                TextField(
+                  controller: _plantWateringFrequencyController,
+                  decoration:
+                      const InputDecoration(hintText: "Watering Frequency"),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  "Last Watering Date: ${_plantLastWateringDateController.text}",
+                ),
+              ],
+            ),
           ),
         ),
       );

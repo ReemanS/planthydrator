@@ -18,31 +18,39 @@ class MainApp extends StatelessWidget {
         primaryColor: const Color(0xff315432),
         scaffoldBackgroundColor: const Color(0xffefedeb),
         textTheme: TextTheme(
-          displayLarge: GoogleFonts.oxygen(
+          displayLarge: GoogleFonts.varelaRound(
             textStyle: const TextStyle(
               fontSize: 24.0,
               fontWeight: FontWeight.w800,
               color: Color(0xff0f1a0f),
             ),
           ),
-          displayMedium: GoogleFonts.oxygen(
+          displayMedium: GoogleFonts.varelaRound(
             textStyle: const TextStyle(
               fontSize: 22.0,
               fontWeight: FontWeight.w600,
               color: Color(0xff0f1a0f),
             ),
           ),
-          displaySmall: GoogleFonts.oxygen(
+          displaySmall: GoogleFonts.varelaRound(
             textStyle: const TextStyle(
               fontSize: 18.0,
               fontWeight: FontWeight.w500,
               color: Color(0xff0f1a0f),
             ),
           ),
+          labelSmall: GoogleFonts.varelaRound(
+            textStyle: const TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.w400,
+              letterSpacing: 0.5,
+              color: Color(0xff0f1a0f),
+            ),
+          ),
         ),
         inputDecorationTheme: InputDecorationTheme(
           iconColor: const Color(0xff0f1a0f),
-          hintStyle: GoogleFonts.oxygen(
+          hintStyle: GoogleFonts.varelaRound(
             textStyle: const TextStyle(
               color: Color(0xff0f1a0f), // Customize the color of the hint text
               fontSize: 16, // Customize the font size of the hint text
