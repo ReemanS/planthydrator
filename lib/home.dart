@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:planthydrator/screens/add_plant.dart';
 import 'package:planthydrator/screens/search.dart';
 import 'package:planthydrator/helpers/sql_helper.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
@@ -97,7 +98,6 @@ class _BodySectionState extends State<BodySection> {
       TextEditingController();
 
   // TODO: implement separate add and edit forms
-  void _addPlantForm() async {}
 
   void _showForm(int? id) async {
     if (id != null) {
@@ -135,7 +135,7 @@ class _BodySectionState extends State<BodySection> {
                 const SizedBox(height: 5),
                 _imagePath == null
                     ? InkWell(
-                        onTap: () {_pickImage; setModalState(() {_imagePath = });},
+                        onTap: () => _pickImage,
                         child: Container(
                           width: 400,
                           height: 400,
@@ -209,7 +209,10 @@ class _BodySectionState extends State<BodySection> {
           borderRadius: BorderRadius.circular(10),
         ),
         child: const Icon(Icons.add),
-        onPressed: () => _showForm(null),
+        onPressed: () => showModalBottomSheet(
+          context: context,
+          builder: (context) => AddPlant(),
+        ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
