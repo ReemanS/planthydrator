@@ -66,138 +66,13 @@ class BodySection extends StatefulWidget {
 }
 
 class _BodySectionState extends State<BodySection> {
-  List<Map<String, dynamic>> _plants = [];
-
-  bool _isLoading = true;
-
-  void _refreshPlants() async {
-    final List<Map<String, dynamic>> data = await SQLHelper.getAllItems();
-    setState(() {
-      _plants = data;
-      _isLoading = false;
-    });
-  }
-
-  String? _imagePath;
-  Future<void> _pickImage() async {
-    final XFile? pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-
-    if (pickedFile != null) {
-      setState(() {
-        _imagePath = pickedFile.path;
-      });
-    }
-  }
-
-  final TextEditingController _plantNameController = TextEditingController();
-  final TextEditingController _plantImageController = TextEditingController();
-  final TextEditingController _plantLastWateringDateController =
-      TextEditingController();
-  final TextEditingController _plantWateringFrequencyController =
-      TextEditingController();
-
-  // TODO: implement separate add and edit forms
-
-  void _showForm(int? id) async {
-    if (id != null) {
-      final existingPlant =
-          _plants.firstWhere((element) => element['id'] == id);
-      _plantNameController.text = existingPlant['name'];
-      _plantImageController.text = existingPlant['image'];
-      _plantLastWateringDateController.text = existingPlant['lastWateringDate'];
-      _plantWateringFrequencyController.text =
-          existingPlant['wateringFrequency'];
-    } else {
-      ThemeData themes = Theme.of(context);
-      showModalBottomSheet(
-        context: context,
-        elevation: 5,
-        isScrollControlled: true,
-        builder: (_) => StatefulBuilder(
-          builder: (BuildContext context, StateSetter setModalState) =>
-              Container(
-            padding: EdgeInsets.fromLTRB(
-              15,
-              15,
-              15,
-              MediaQuery.of(context).viewInsets.bottom + 120,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                TextField(
-                  controller: _plantImageController,
-                  decoration:
-                      const InputDecoration(labelText: "Enter plant name"),
-                ),
-                const SizedBox(height: 5),
-                _imagePath == null
-                    ? InkWell(
-                        onTap: () => _pickImage,
-                        child: Container(
-                          width: 400,
-                          height: 400,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(Icons.add_a_photo, size: 30),
-                              const SizedBox(height: 8),
-                              Text('Select an image',
-                                  style: themes.textTheme.labelSmall),
-                            ],
-                          ),
-                        ),
-                      )
-                    : Column(
-                        children: [
-                          Image.file(
-                            File(_imagePath!),
-                            width: 400,
-                            height: 400,
-                          ),
-                          const SizedBox(height: 5),
-                          // Select another image
-                          TextButton(
-                            onPressed: _pickImage,
-                            child: Text(
-                              'Select another image',
-                              style: themes.textTheme.labelSmall!.copyWith(
-                                color: themes.primaryColor,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                const SizedBox(height: 5),
-                TextField(
-                  controller: _plantWateringFrequencyController,
-                  decoration:
-                      const InputDecoration(hintText: "Watering Frequency"),
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  "Last Watering Date: ${_plantLastWateringDateController.text}",
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-    }
-  }
+  // List<Map<String, dynamic>> _plants = [];
 
   @override
   void initState() {
     super.initState();
-    _refreshPlants();
-    print("num of plants: ${_plants.length}");
+    // _refreshPlants();
+    // print("num of plants: ${_plants.length}");
   }
 
   @override
@@ -220,7 +95,7 @@ class _BodySectionState extends State<BodySection> {
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
             child: Text(
-              "Water today",
+              "water today",
               style: (Theme.of(context).textTheme.displayMedium)!.copyWith(
                 fontSize: 24,
               ),

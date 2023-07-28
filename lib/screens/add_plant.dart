@@ -1,7 +1,7 @@
 import "dart:io";
 import "package:flutter/material.dart";
 import "package:image_picker/image_picker.dart";
-import "package:path/path.dart";
+// import "package:path/path.dart";
 import "package:planthydrator/helpers/sql_helper.dart";
 
 class AddPlant extends StatefulWidget {
@@ -43,21 +43,28 @@ class _AddPlantState extends State<AddPlant> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Select Image Source'),
+        title: Text(
+          'Select Image Source',
+          style: Theme.of(context).textTheme.displayMedium,
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: Icon(Icons.camera),
-              title: Text('Camera'),
+              leading: const Icon(Icons.camera),
+              title: Text(
+                'Camera',
+                style: Theme.of(context).textTheme.displaySmall,
+              ),
               onTap: () {
                 _pickImageFromCamera();
                 Navigator.pop(context); // Close the dialog after selection
               },
             ),
             ListTile(
-              leading: Icon(Icons.image),
-              title: Text('Gallery'),
+              leading: const Icon(Icons.image),
+              title: Text('Gallery',
+                  style: Theme.of(context).textTheme.displaySmall),
               onTap: () {
                 _pickImageFromGallery();
                 Navigator.pop(context); // Close the dialog after selection
@@ -96,7 +103,7 @@ class _AddPlantState extends State<AddPlant> {
           mainAxisSize: MainAxisSize.min,
           children: [
             TextFormField(
-              decoration: InputDecoration(labelText: 'Plant Name'),
+              decoration: const InputDecoration(labelText: 'Plant Name'),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter a plant name';
