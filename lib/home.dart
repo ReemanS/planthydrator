@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:planthydrator/screens/add_plant.dart';
+import 'package:planthydrator/screens/plant_list.dart';
 import 'package:planthydrator/screens/search.dart';
 import 'package:planthydrator/helpers/sql_helper.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
@@ -77,14 +78,16 @@ class _BodySectionState extends State<BodySection> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData themes = Theme.of(context);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: themes.primaryColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
         child: const Icon(Icons.add),
         onPressed: () => showModalBottomSheet(
+          backgroundColor: Colors.transparent,
           context: context,
           builder: (context) => AddPlant(),
         ),
@@ -95,14 +98,17 @@ class _BodySectionState extends State<BodySection> {
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
             child: Text(
-              "water today",
-              style: (Theme.of(context).textTheme.displayMedium)!.copyWith(
+              "plants list",
+              style: (themes.textTheme.displayMedium)!.copyWith(
                 fontSize: 24,
               ),
               textAlign: TextAlign.left,
             ),
           ),
-          const Placeholder(),
+          SizedBox(
+            height: 300,
+            child: PlantsList(),
+          ),
         ],
       ),
     );

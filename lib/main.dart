@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:planthydrator/helpers/sql_helper.dart';
 import 'home.dart';
 
 void main() {
@@ -17,7 +18,19 @@ class MainApp extends StatelessWidget {
         primarySwatch: Colors.green,
         primaryColor: const Color(0xff315432),
         scaffoldBackgroundColor: const Color(0xffefedeb),
+        // TODO: refactor themes to use ColorScheme
+        // colorScheme: const ColorScheme.light(
+        //   background: Colors.white,
+        // ),
+        backgroundColor: Colors.white,
         textTheme: TextTheme(
+          labelLarge: GoogleFonts.lato(
+            textStyle: const TextStyle(
+              fontSize: 28.0,
+              fontWeight: FontWeight.w900,
+              color: Color(0xff0f1a0f),
+            ),
+          ),
           displayLarge: GoogleFonts.lato(
             textStyle: const TextStyle(
               fontSize: 24.0,

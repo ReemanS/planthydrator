@@ -57,4 +57,15 @@ class SQLHelper {
       debugPrint("Error deleting item: $error");
     }
   }
+
+  static void printDatabaseContent() async {
+    final sql.Database database = await openDB();
+
+    final List<Map<String, dynamic>> queryResult =
+        await database.query('plants');
+
+    for (final row in queryResult) {
+      print(row);
+    }
+  }
 }

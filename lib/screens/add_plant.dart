@@ -95,13 +95,28 @@ class _AddPlantState extends State<AddPlant> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData themes = Theme.of(context);
     return Container(
       padding: EdgeInsets.all(16.0),
+      clipBehavior: Clip.hardEdge,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(20.0),
+          topRight: Radius.circular(20.0),
+        ),
+      ),
       child: Form(
         key: _formKey,
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              "add plant",
+              style: themes.textTheme.labelLarge,
+              textAlign: TextAlign.left,
+            ),
             TextFormField(
               decoration: const InputDecoration(labelText: 'Plant Name'),
               validator: (value) {
@@ -113,23 +128,25 @@ class _AddPlantState extends State<AddPlant> {
               onSaved: (value) => _name = value,
             ),
             SizedBox(height: 16),
-            GestureDetector(
-              onTap: () {
-                _showImageSourceDialog(context);
-              },
-              child: Container(
-                width: 150,
-                height: 150,
-                color: Colors.grey[300],
-                child: _imagePath == null
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.camera_alt, size: 40),
-                          Text('Select Image', textAlign: TextAlign.center),
-                        ],
-                      )
-                    : Image.file(File(_imagePath!)),
+            Center(
+              child: GestureDetector(
+                onTap: () {
+                  _showImageSourceDialog(context);
+                },
+                child: Container(
+                  width: 150,
+                  height: 150,
+                  color: Colors.grey[300],
+                  child: _imagePath == null
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.camera_alt, size: 40),
+                            Text('Select Image', textAlign: TextAlign.center),
+                          ],
+                        )
+                      : Image.file(File(_imagePath!)),
+                ),
               ),
             ),
             SizedBox(height: 16),
@@ -141,7 +158,7 @@ class _AddPlantState extends State<AddPlant> {
                 if (value == null || value.isEmpty) {
                   return 'Please enter a watering frequency';
                 }
-                final intValue = int.tryParse(value);
+                final int? intValue = int.tryParse(value);
                 if (intValue == null || intValue <= 0) {
                   return 'Please enter a valid number greater than 0';
                 }
@@ -150,9 +167,17 @@ class _AddPlantState extends State<AddPlant> {
               onSaved: (value) => _wateringFrequency = int.parse(value!),
             ),
             SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _submitForm,
-              child: Text('Save'),
+            Center(
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  fixedSize: MaterialStateProperty.all(Size(200, 50)),
+                ),
+                onPressed: _submitForm,
+                child: Text('Save',
+                    style: themes.textTheme.displayLarge!.copyWith(
+                      color: Colors.white,
+                    )),
+              ),
             ),
           ],
         ),
