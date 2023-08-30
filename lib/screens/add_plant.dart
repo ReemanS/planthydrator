@@ -88,6 +88,7 @@ class _AddPlantState extends State<AddPlant> {
 
       await SQLHelper.insert(plantData);
       print("success");
+      // TODO: implement update state when adding new plant
     } else {
       print("error in _submitForm");
     }
